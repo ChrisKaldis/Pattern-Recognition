@@ -31,7 +31,7 @@ public class MedicalExamService implements IMedicalExamService {
 	@Override
 	public String classifyExam( MedicalExam medicalExam ) {
 		Pattern p = new Pattern(medicalExam);
-		p.convertMedicalExamToPattern(medicalExam);
+		p.convertMedicalExamToPattern();
 		String response = p.classify();
 		return response;
 	}

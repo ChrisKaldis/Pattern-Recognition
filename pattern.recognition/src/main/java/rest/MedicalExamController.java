@@ -34,10 +34,10 @@ public class MedicalExamController {
 							@ApiResponse(code = 405, message = "Method Not allowed", response = Error.class),
 							@ApiResponse(code = 409, message = "Conflict", response = Error.class),
 							@ApiResponse(code = 500, message = "Internal Server Error", response = Error.class) })
-	@RequestMapping(value = "/medicalExams/" , produces = { "application/json;charset=utf-8" }, method = RequestMethod.GET)
+	@RequestMapping(value = "/medicalExams/", produces = { "application/json;charset=utf-8" }, method = RequestMethod.GET)
 	public List<MedicalExam> getMedicalExams() {
+		log.info("Get all medical Exams.");
 		List<MedicalExam> medicalExams = medicalExamService.findAll();
-
 		return medicalExams;
 	}
 	
@@ -51,9 +51,9 @@ public class MedicalExamController {
 							@ApiResponse(code = 500, message = "Internal Server Error", response = Error.class) })
 	@RequestMapping(value = "/medicalExam", produces = { "application/json;charset=utf-8" }, consumes = { "application/json;charset=utf-8" }, method = RequestMethod.POST)
 	public ResponseEntity<MedicalExam> createMedicalExam(@ApiParam(value = "The MedicalExam to be created", required = true) @RequestBody MedicalExam exam) {
-		log.info( "Will add a new medical Exam" );
+		log.info("Add a new medical Exam.");
 		MedicalExam medicalExam = medicalExamService.addExam(exam);
-		return new ResponseEntity<MedicalExam>( medicalExam, HttpStatus.OK );
+		return new ResponseEntity<MedicalExam>(medicalExam, HttpStatus.OK);
 	}
 	
 	@ApiOperation(value = "Classify a Medical Exam", notes = "This operation classify a MedicalExam entity.", response = String.class)
@@ -66,8 +66,8 @@ public class MedicalExamController {
 							@ApiResponse(code = 500, message = "Internal Server Error", response = Error.class) })
 	@RequestMapping(value = "/classifyMedicalExam", produces = { "application/json;charset=utf-8" }, consumes = { "application/json;charset=utf-8" }, method = RequestMethod.POST)
 	public ResponseEntity<String> classifyExam(@ApiParam(value = "MedicalExam for classification", required = true) @RequestBody MedicalExam exam) {
-		log.info( "Classify MedicalExam" );
+		log.info("Classify MedicalExam.");
 		String response = medicalExamService.classifyExam(exam);
-		return new ResponseEntity<String>( response, HttpStatus.OK );
+		return new ResponseEntity<String>(response, HttpStatus.OK);
 	}
 }

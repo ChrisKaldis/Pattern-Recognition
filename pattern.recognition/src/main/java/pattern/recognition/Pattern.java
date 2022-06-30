@@ -5,21 +5,38 @@ import java.util.List;
 
 import rest.MedicalExam;
 
+/**
+ * 
+ * @author Chris Kaldis
+ * 
+ * <span>Με κυνηγάνε οι μάγισσες.</span>
+ * <p>
+ * The use of this class is to transpose MedicalExam item 
+ * into some data that we can use in classification and 
+ * pattern recognition using KMeans Class. In order to achieve that 
+ * we have to transform the String values into numerical and 
+ * after that the arrayList into typical array.
+ * </p>
+ *
+ */
 public class Pattern {
 	
 	private List<Double> data = new ArrayList<>();
-	MedicalExam exam;
+	private MedicalExam exam;
 	
-	public Pattern(MedicalExam exam) {
+	public Pattern( MedicalExam exam ) {
 		super();
 		this.exam = exam;
-
 	}
 	
-	// methods below used to convert the instances from a MedicalExam to a data array
+	/**
+	 * 
+	 * Method used to convert the instances from a MedicalExam to 
+	 * a data arrayList used in order to classify a pattern.
+	 * 
+	 */
 	public void convertMedicalExamToPattern() {
-				
-		insertDecadeInData();
+		insertDecadeData();
 		insertMenopauseData();
 		insertTumorSizeData();
 		insertInvNodesData();
@@ -32,8 +49,7 @@ public class Pattern {
 		return ;
 	}
 	
-	private void insertDecadeInData() {
-		// TODO
+	private void insertDecadeData() {
 		String decade = exam.getDecade();
 		switch (decade) {
 			case "10-19":
@@ -69,7 +85,6 @@ public class Pattern {
 	}
 	
 	private void insertMenopauseData() {
-		// TODO
 		String menopause = exam.getMenopause();
 		switch (menopause) {
 			case "lt40":
@@ -87,7 +102,6 @@ public class Pattern {
 	}
 	
 	private void insertTumorSizeData() {
-		// TODO 
 		String tumorSize = exam.getTumorSize();
 		switch (tumorSize) {
 			case "0-4":
@@ -132,7 +146,6 @@ public class Pattern {
 	}
 	
 	private void insertInvNodesData() {
-		// TODO testing
 		String invNodes = exam.getInvNodes();
 		switch (invNodes) {
 			case "0-2":
@@ -180,7 +193,6 @@ public class Pattern {
 	}
 	
 	private void insertNodeCapsData() {
-		// TODO testing
 		boolean nodeCaps = exam.isNodeCaps();
 		double x = (nodeCaps) ? 1.0 : 0.0;
 		data.add(x);
@@ -189,7 +201,6 @@ public class Pattern {
 	}
 
 	private void insertDegMaligData() {
-		// TODO testing
 		double x = exam.getDegMalig();
 		data.add(x);
 		
@@ -197,21 +208,20 @@ public class Pattern {
 	}
 
 	private void insertBreastData() {
-		// TODO
 		String breast = exam.getBreast();
 		switch (breast) {
-		case "left":
-			data.add(0.0);
-			break;
-		case "right":
-			data.add(1.0);
-			break;
+			case "left":
+				data.add(0.0);
+				break;
+			case "right":
+				data.add(1.0);
+				break;
 		}
+		
 		return ;
 	}
 	
 	private void insertBreastQuadData() {
-		//TODO
 		String breastQuad = exam.getBreastQuad();
 		switch (breastQuad) {
 			case "left_up":
@@ -230,11 +240,11 @@ public class Pattern {
 				fillingData(4, 5);
 				break;
 		}
+		
 		return ;
 	}
 
 	private void insertIrradiant() {
-		
 		boolean irradiant = exam.isIrradiant();
 		double x = (irradiant) ? 1.0 : 0.0;
 		data.add(x);
@@ -242,32 +252,87 @@ public class Pattern {
 		return ;
 	}
 	
+	/**
+	 * 
+	 * It fills cells equal to length param with 0.0 and 
+	 * 1.0 at the index equal with num in the data List.
+	 * 
+	 * @param num
+	 * @param length
+	 * 
+	 */
 	private void fillingData( int num, int length ) {
-		
-		for (int i = 0; i < length; i++) {
-			if ( i != num )
+		for ( int i = 0; i < length; i++ ) {
+			if ( i != num ) {
 				data.add(0.0);
-			else
+			} else {
 				data.add(1.0);
+			}
 		}
 		
 		return ;
 	}
-	// Uses the data array to classify the pattern
-	public String classify() {
-		// TODO Auto-generated method stub
-		String response = "class";
-		
+
+	public String classify( List<MedicalExam> medicalExams ) {
+		// Written before Lloyd Class
+		// TODO rethink at testing.
+		String response;
+		Lloyd algorithm = new Lloyd(medicalExamsToArray(medicalExams));
+		algorithm.initialCenters();
+		if ( algorithm.classifyPattern(patternToArray()) ) {
+			response = "recurrent";
+		} else {
+			response = "non-recurrent";
+		}
 		
 		return response;
 	}
-	//
-	public List<Double> getData() {
-		return data;
+	
+	/**
+	 * 
+	 * This method changes the data structure in order to use
+	 * the implementations of Clustering Interface.
+	 * Class Pattern takes List with medical Exam type and Lloyd
+	 * class use a 2-D array store data used to perform calculations.
+	 * 
+	 * @param medicalExams
+	 * @return patterns a 2-D array with all data from medicalExams.
+	 * 
+	 */
+	private double[][] medicalExamsToArray( List<MedicalExam> medicalExams ) {
+		double[][] patterns = new double[medicalExams.size()][];
+		
+		for ( int i = 0; i < medicalExams.size(); i++ ) {
+			Pattern p = new Pattern(medicalExams.get(i));
+			p.convertMedicalExamToPattern();
+			patterns[i] = patternToArray();
+		}
+		
+		return patterns;
 	}
-
-	public void setData( List<Double> data ) {
-		this.data = data;
+	
+	/**
+	 * 
+	 * This method changes the data structure in order to use 
+	 * the implementations of Clustering Interface.
+	 * Class Pattern stores data in an arrayList and Lloyd class 
+	 * uses array. 
+	 * 
+	 * @return Array of numbers that are inside the arrayList data.
+	 * 
+	 */
+	private double[] patternToArray() {
+		double[] vector = new double[data.size()];
+		
+		for ( int i = 0; i < data.size(); i++ )
+			vector[i] = data.get(i);
+		
+		return vector;
+	}
+	
+	public List<Double> getData() {
+		
+		return data;
 	}
 
 }

@@ -1,5 +1,17 @@
 package rest;
 
+/**
+ * 
+ * @author Chris Kaldis
+ * 
+ * <p>
+ * The class developed in order to store the data of 
+ * the medical exams with small effort. It is also important 
+ * that data stayed readable for users and programmers in 
+ * this point of the program.
+ * </p>
+ *
+ */
 public class MedicalExam {
 	
 	private boolean recurrenceEvent;
@@ -13,8 +25,8 @@ public class MedicalExam {
 	private String breastQuad;
 	private boolean irradiant;
 	
-	public MedicalExam(boolean recurrenceEvent, String decade, String menopause, String tumorSize, String invNodes,
-			boolean nodeCaps, int degMalig, String breast, String breastQuad, boolean irradiant) {
+	public MedicalExam( boolean recurrenceEvent, String decade, String menopause, String tumorSize, String invNodes,
+			boolean nodeCaps, int degMalig, String breast, String breastQuad, boolean irradiant ) {
 		super();
 		this.setRecurrenceEvent(recurrenceEvent);
 		this.setDecade(decade);
@@ -32,7 +44,7 @@ public class MedicalExam {
 		return recurrenceEvent;
 	}
 
-	public void setRecurrenceEvent(boolean recurrenceEvent) {
+	public void setRecurrenceEvent( boolean recurrenceEvent ) {
 		this.recurrenceEvent = recurrenceEvent;
 	}
 
@@ -40,7 +52,7 @@ public class MedicalExam {
 		return decade;
 	}
 
-	public void setDecade(String decade) {
+	public void setDecade( String decade ) {
 		this.decade = decade;
 	}
 
@@ -48,7 +60,7 @@ public class MedicalExam {
 		return menopause;
 	}
 
-	public void setMenopause(String menopause) {
+	public void setMenopause( String menopause ) {
 		this.menopause = menopause;
 	}
 
@@ -56,7 +68,7 @@ public class MedicalExam {
 		return tumorSize;
 	}
 
-	public void setTumorSize(String tumorSize) {
+	public void setTumorSize( String tumorSize ) {
 		this.tumorSize = tumorSize;
 	}
 
@@ -64,7 +76,7 @@ public class MedicalExam {
 		return invNodes;
 	}
 
-	public void setInvNodes(String invNodes) {
+	public void setInvNodes( String invNodes ) {
 		this.invNodes = invNodes;
 	}
 
@@ -72,7 +84,7 @@ public class MedicalExam {
 		return nodeCaps;
 	}
 
-	public void setNodeCaps(boolean nodeCaps) {
+	public void setNodeCaps( boolean nodeCaps ) {
 		this.nodeCaps = nodeCaps;
 	}
 
@@ -80,7 +92,7 @@ public class MedicalExam {
 		return degMalig;
 	}
 
-	public void setDegMalig(int degMalig) {
+	public void setDegMalig( int degMalig ) {
 		this.degMalig = degMalig;
 	}
 
@@ -88,7 +100,7 @@ public class MedicalExam {
 		return breast;
 	}
 
-	public void setBreast(String breast) {
+	public void setBreast( String breast ) {
 		this.breast = breast;
 	}
 
@@ -96,7 +108,7 @@ public class MedicalExam {
 		return breastQuad;
 	}
 
-	public void setBreastQuad(String breastQuad) {
+	public void setBreastQuad( String breastQuad ) {
 		this.breastQuad = breastQuad;
 	}
 
@@ -104,7 +116,7 @@ public class MedicalExam {
 		return irradiant;
 	}
 
-	public void setIrradiant(boolean irradiant) {
+	public void setIrradiant( boolean irradiant ) {
 		this.irradiant = irradiant;
 	}
 

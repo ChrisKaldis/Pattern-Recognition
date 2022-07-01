@@ -249,11 +249,6 @@ class PatternTest {
 		}
 
 	}
-
-//	@Test
-//	void testClassify() {
-//		fail("Not yet implemented");
-//	}
-//
-
+	
 }
+

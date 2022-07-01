@@ -6,8 +6,11 @@ package pattern.recognition;
  *
  */
 public class Lloyd implements Clustering {
-	private double[][] patterns;
-	private double[][] centers;
+	// Based on the current data the size of array is (285,46).
+	private static int SIZE = 285;
+	private static int LENGTH = 46;
+	private double[][] patterns = new double[SIZE][LENGTH];
+	private double[][] centers = new double[2][LENGTH];
 
 	public Lloyd( double[][] patterns ) {
 		super();
@@ -20,33 +23,57 @@ public class Lloyd implements Clustering {
 	 * The way algorithm is developed based on paper:<i>A data-
 	 * Clustering Algorithm On Distributed Memory Multiprocessors,</i>
 	 * published by:<b>Inderjit S. Dhillon and Dharmendra S. Modha.</b>
-	 * <span>You can read the pseudocode in page 5, Figure 1. Sequential k-means Algorithm.</span>
+	 * <span>You can read the pseudocode in page 5, Figure 1. 
+	 * Sequential k-means Algorithm.</span>
 	 * 
 	 * @param patterns
-	 * @param centers
 	 * 
 	 */
 	@Override
-	public void kMeans( double[][] patterns, double[][] centers ) {
+	public void kMeans( double[][] patterns ) {
 		// TODO testing
-		double[][] distance = new double[287][];
-		int[] argminArray = new int[287];
-		double oldSSE;
-		double tmpSSE;
+		double[][] distance = new double[patterns.length][patterns[0].length];
+		int[] argminArray = new int[patterns.length];
 		double SSE = Double.POSITIVE_INFINITY;
-		
+		double oldSSE, tmpSSE;
 		do {
-			tmpSSE = 0;
+			for ( int j = 0; j < this.centers[0].length; j++ ) {
+				System.out.println(centers[0][j] + " " + centers[1][j]);
+			}
+			System.out.println("");
+			tmpSSE = 0.0;
 			oldSSE = SSE;
-			
+			// initial step, finds nearest mean for every pattern
 			for ( int i = 0; i < patterns.length; i++ ) {
-				for ( int j = 0; j < patterns[0].length; j++ )
-					distance[i][j] = distanceEucledean(patterns[i], centers[j]);
+				for ( int j = 0; j < centers.length; j++ )
+					distance[i][j] = distanceEucledean(patterns[i], this.centers[j]);
 				argminArray[i] = argMin(distance[i]);
 			}
-			
-			
-			
+			// initialization of arrays used for recalculating means
+			double[][] y = new double[this.centers.length][this.centers[0].length];
+			double[][] z = new double[this.centers.length][this.centers[0].length];
+			for ( int i = 0; i < this.centers.length; i++ ) {
+				for ( int j = 0; j < this.centers.length; j++ ) {
+					y[i][j] = 0.0;
+					z[i][j] = 0.0;
+				}
+			}
+			// update step, recalculate means
+			for ( int i = 0; i < patterns.length; i++ ) {
+				int index = argminArray[i];
+				for ( int k = 0; k < this.centers[0].length; k++ ) {
+					y[index][k] += patterns[i][k];
+					z[index][k] += 1.0;
+				}
+				tmpSSE += distanceEucledean(patterns[i], this.centers[argminArray[i]]);
+			}
+			for ( int j = 0; j < this.centers.length; j++ ) {
+				for ( int k = 0; k < this.centers[0].length; k++ ) {
+					z[j][k] = Math.max(z[j][k], 1.0); // avoid division with zero
+					this.centers[j][k] = y[j][k]/z[j][k];
+				}
+			}
+			SSE = tmpSSE;
 		} while ( SSE < oldSSE ) ;
 				
 		return ;
@@ -74,7 +101,7 @@ public class Lloyd implements Clustering {
 	
 	/**
 	 * 
-	 * Finds the index (place) of the minimun inside a vector.
+	 * Finds the index of the minimun inside a vector.
 	 * 
 	 * @param vector
 	 * @return index
@@ -107,11 +134,10 @@ public class Lloyd implements Clustering {
 	public boolean classifyPattern( double[] pattern ) {
 		//TODO test
 		boolean reccurent = false;
-		double[][] centers = getCenters();
-		double[] distances = new double[centers.length];
+		double[] distances = new double[this.centers.length];
 		
-		for ( int i = 0; i < centers.length; i++ ) {
-			distances[i] = distanceEucledean(pattern, centers[i]);
+		for ( int i = 0; i < this.centers.length; i++ ) {
+			distances[i] = distanceEucledean(pattern, this.centers[i]);
 		}
 		if ( argMin(distances) == 1 )
 			reccurent = true;
@@ -128,12 +154,10 @@ public class Lloyd implements Clustering {
 	 */
 	public void initialCenters() {
 		//TODO test
-		//written in naive way that works only for this dataset.
-		
 		//no recurrence events start at 0 in the current file.
-		centers[0] = patterns[1];
+		this.centers[0] = patterns[0];
 		//recerrence events star at 202 in the current file.
-		centers[1] = patterns[203];
+		this.centers[1] = patterns[204];
 		
 		return ;
 	}

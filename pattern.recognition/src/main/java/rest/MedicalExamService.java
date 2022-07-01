@@ -85,7 +85,7 @@ public class MedicalExamService implements IMedicalExamService {
 		try { 
 			degMalig = Integer.parseInt(data[6]);
 		} catch ( NumberFormatException e ) { 
-			System.out.println("String in DegMalig inside file is not a Number."); 
+			e.printStackTrace();
 		}
 		String breast = data[7];
 		String breastQuad = data[8];

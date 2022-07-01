@@ -279,6 +279,7 @@ public class Pattern {
 		String response;
 		Lloyd algorithm = new Lloyd(medicalExamsToArray(medicalExams));
 		algorithm.initialCenters();
+		algorithm.kMeans(medicalExamsToArray(medicalExams));
 		if ( algorithm.classifyPattern(patternToArray()) ) {
 			response = "recurrent";
 		} else {

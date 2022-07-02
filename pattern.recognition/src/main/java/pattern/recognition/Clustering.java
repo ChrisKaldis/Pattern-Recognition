@@ -2,7 +2,7 @@ package pattern.recognition;
 
 public interface Clustering {
 	
-	void kMeans( double[][] patterns );
+	void kMeans();
 	
 	boolean classifyPattern( double[] pattern );
 	

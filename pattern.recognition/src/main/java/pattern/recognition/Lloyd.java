@@ -9,8 +9,9 @@ public class Lloyd implements Clustering {
 	// Based on the current data the size of array is (285,46).
 	private static int SIZE = 285;
 	private static int LENGTH = 46;
+	private static int CENTER = 2;
 	private double[][] patterns = new double[SIZE][LENGTH];
-	private double[][] centers = new double[2][LENGTH];
+	private double[][] centers = new double[CENTER][LENGTH];
 
 	public Lloyd( double[][] patterns ) {
 		super();
@@ -26,21 +27,15 @@ public class Lloyd implements Clustering {
 	 * <span>You can read the pseudocode in page 5, Figure 1. 
 	 * Sequential k-means Algorithm.</span>
 	 * 
-	 * @param patterns
-	 * 
 	 */
 	@Override
-	public void kMeans( double[][] patterns ) {
+	public void kMeans() {
 		// TODO testing
 		double[][] distance = new double[patterns.length][patterns[0].length];
 		int[] argminArray = new int[patterns.length];
 		double SSE = Double.POSITIVE_INFINITY;
 		double oldSSE, tmpSSE;
 		do {
-			for ( int j = 0; j < this.centers[0].length; j++ ) {
-				System.out.println(centers[0][j] + " " + centers[1][j]);
-			}
-			System.out.println("");
 			tmpSSE = 0.0;
 			oldSSE = SSE;
 			// initial step, finds nearest mean for every pattern
@@ -90,8 +85,8 @@ public class Lloyd implements Clustering {
 	 * 
 	 */
 	private double distanceEucledean( double[] vector, double[] center ) {
-		//TODO testing
-		double distance = 0;
+		//TODO tests
+		double distance = 0.0;
 		
 		for ( int i = 0; i < vector.length; i++ )
 			distance += Math.pow((vector[i] - center[i]), 2.0);
@@ -101,14 +96,14 @@ public class Lloyd implements Clustering {
 	
 	/**
 	 * 
-	 * Finds the index of the minimun inside a vector.
+	 * Finds the index of the minimun value in vector's cells.
 	 * 
 	 * @param vector
 	 * @return index
 	 * 
 	 */
 	private int argMin( double[] vector ) {
-		//TODO testing
+		//TODO tests
 		int index = 0;
 		double min = vector[index];
 		
@@ -152,12 +147,15 @@ public class Lloyd implements Clustering {
 	 * You have to call this method in every new instance of this Class.
 	 * 
 	 */
-	public void initialCenters() {
+	public void initialCenters( int num1, int num2 ) {
 		//TODO test
+		double[][] initialCenters = new double[CENTER][LENGTH];
 		//no recurrence events start at 0 in the current file.
-		this.centers[0] = patterns[0];
+		initialCenters[0] = patterns[num1];
 		//recerrence events star at 202 in the current file.
-		this.centers[1] = patterns[204];
+		initialCenters[1] = patterns[num2];
+		
+		setCenters(initialCenters);
 		
 		return ;
 	}
@@ -165,11 +163,32 @@ public class Lloyd implements Clustering {
 	@Override
 	public void calculateError() {
 		//TODO
+		double[][] distancesForError = new double[SIZE][CENTER];
+		for ( int i = 0; i < SIZE; i++ ) {
+			for ( int j = 0; j < CENTER; j++)
+			distancesForError[i][j] = distanceEucledean(patterns[i], centers[j]); 
+		}
+		
+		int error = 0;
+		for ( int i = 0; i < SIZE; i++ ) {
+			if ( argMin(distancesForError[i]) == 1 && i < 202 )
+				error += 1;
+			else if ( argMin(distancesForError[i]) == 0 && i > 201 )
+				error += 1;
+		}
+		System.out.println(error);
+		
 		return ;
 	}
 	
 	public double[][] getCenters() {
 		
-		return centers;
+		return this.centers;
+	}
+	
+	public void setCenters( double[][] array ) {
+		this.centers = array;
+		
+		return ;
 	}
 }

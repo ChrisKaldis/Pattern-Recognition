@@ -9,7 +9,6 @@ import rest.MedicalExam;
  * 
  * @author Chris Kaldis
  * 
- * <span>Με κυνηγάνε οι μάγισσες.</span>
  * <p>
  * The use of this class is to transpose MedicalExam item 
  * into some data that we can use in classification and 
@@ -23,6 +22,10 @@ public class Pattern {
 	
 	private List<Double> data = new ArrayList<>();
 	private MedicalExam exam;
+	
+	public Pattern() {
+		super();
+	}
 	
 	public Pattern( MedicalExam exam ) {
 		super();
@@ -278,8 +281,8 @@ public class Pattern {
 		// TODO rethink at testing.
 		String response;
 		Lloyd algorithm = new Lloyd(medicalExamsToArray(medicalExams));
-		algorithm.initialCenters();
-		algorithm.kMeans(medicalExamsToArray(medicalExams));
+		algorithm.initialCenters(0, 202);
+		algorithm.kMeans();
 		if ( algorithm.classifyPattern(patternToArray()) ) {
 			response = "recurrent";
 		} else {
@@ -300,7 +303,7 @@ public class Pattern {
 	 * @return patterns a 2-D array with all data from medicalExams.
 	 * 
 	 */
-	private double[][] medicalExamsToArray( List<MedicalExam> medicalExams ) {
+	public double[][] medicalExamsToArray( List<MedicalExam> medicalExams ) {
 		double[][] patterns = new double[medicalExams.size()][];
 		
 		for ( int i = 0; i < medicalExams.size(); i++ ) {
@@ -322,7 +325,7 @@ public class Pattern {
 	 * @return Array of numbers that are inside the arrayList data.
 	 * 
 	 */
-	private double[] patternToArray() {
+	public double[] patternToArray() {
 		double[] vector = new double[data.size()];
 		
 		for ( int i = 0; i < data.size(); i++ )

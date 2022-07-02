@@ -75,7 +75,7 @@ public class MedicalExamService implements IMedicalExamService {
 		// exams with all attributes contain 10 items.
 		if ( data.length != 10 )
 			return ;
-		boolean recurenceEvent = (data[0].equals("recurrence-events")) ? true : false;
+		boolean recurenceEvent = (data[0].equals("no-recurrence-events")) ? false : true;
 		String decade = data[1];
 		String menopause = data[2];
 		String tumorSize = data[3];
@@ -93,6 +93,11 @@ public class MedicalExamService implements IMedicalExamService {
 		medicalExams.add(new MedicalExam(recurenceEvent, decade, menopause, tumorSize, invNodes, nodeCaps, degMalig, breast, breastQuad, irradiant));
 
 		return ;
+	}
+	
+	public List<MedicalExam> getMedicalExams() {
+		
+		return medicalExams;
 	}
 	
 	@Override

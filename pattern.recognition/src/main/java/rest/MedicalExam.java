@@ -14,19 +14,19 @@ package rest;
  */
 public class MedicalExam {
 	
-	private boolean recurrenceEvent;
+	private String recurrenceEvent;
 	private String decade;
 	private String menopause;
 	private String tumorSize;
 	private String invNodes;
-	private boolean nodeCaps;
-	private int degMalig;
+	private String nodeCaps;
+	private String degMalig;
 	private String breast;
 	private String breastQuad;
-	private boolean irradiant;
+	private String irradiant;
 	
-	public MedicalExam( boolean recurrenceEvent, String decade, String menopause, String tumorSize, String invNodes,
-			boolean nodeCaps, int degMalig, String breast, String breastQuad, boolean irradiant ) {
+	public MedicalExam( String recurrenceEvent, String decade, String menopause, String tumorSize, String invNodes,
+			String nodeCaps, String degMalig, String breast, String breastQuad, String irradiant ) {
 		super();
 		this.setRecurrenceEvent(recurrenceEvent);
 		this.setDecade(decade);
@@ -40,11 +40,11 @@ public class MedicalExam {
 		this.setIrradiant(irradiant);
 	}
 
-	public boolean isRecurrenceEvent() {
+	public String getRecurrenceEvent() {
 		return recurrenceEvent;
 	}
 
-	public void setRecurrenceEvent( boolean recurrenceEvent ) {
+	public void setRecurrenceEvent(String recurrenceEvent) {
 		this.recurrenceEvent = recurrenceEvent;
 	}
 
@@ -52,7 +52,7 @@ public class MedicalExam {
 		return decade;
 	}
 
-	public void setDecade( String decade ) {
+	public void setDecade(String decade) {
 		this.decade = decade;
 	}
 
@@ -60,7 +60,7 @@ public class MedicalExam {
 		return menopause;
 	}
 
-	public void setMenopause( String menopause ) {
+	public void setMenopause(String menopause) {
 		this.menopause = menopause;
 	}
 
@@ -68,7 +68,7 @@ public class MedicalExam {
 		return tumorSize;
 	}
 
-	public void setTumorSize( String tumorSize ) {
+	public void setTumorSize(String tumorSize) {
 		this.tumorSize = tumorSize;
 	}
 
@@ -76,23 +76,23 @@ public class MedicalExam {
 		return invNodes;
 	}
 
-	public void setInvNodes( String invNodes ) {
+	public void setInvNodes(String invNodes) {
 		this.invNodes = invNodes;
 	}
 
-	public boolean isNodeCaps() {
+	public String getNodeCaps() {
 		return nodeCaps;
 	}
 
-	public void setNodeCaps( boolean nodeCaps ) {
+	public void setNodeCaps(String nodeCaps) {
 		this.nodeCaps = nodeCaps;
 	}
 
-	public int getDegMalig() {
+	public String getDegMalig() {
 		return degMalig;
 	}
 
-	public void setDegMalig( int degMalig ) {
+	public void setDegMalig(String degMalig) {
 		this.degMalig = degMalig;
 	}
 
@@ -100,7 +100,7 @@ public class MedicalExam {
 		return breast;
 	}
 
-	public void setBreast( String breast ) {
+	public void setBreast(String breast) {
 		this.breast = breast;
 	}
 
@@ -108,15 +108,15 @@ public class MedicalExam {
 		return breastQuad;
 	}
 
-	public void setBreastQuad( String breastQuad ) {
+	public void setBreastQuad(String breastQuad) {
 		this.breastQuad = breastQuad;
 	}
 
-	public boolean isIrradiant() {
+	public String getIrradiant() {
 		return irradiant;
 	}
 
-	public void setIrradiant( boolean irradiant ) {
+	public void setIrradiant(String irradiant) {
 		this.irradiant = irradiant;
 	}
 

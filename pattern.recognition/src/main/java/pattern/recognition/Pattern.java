@@ -21,15 +21,15 @@ import rest.MedicalExam;
 public class Pattern {
 	
 	private List<Double> data = new ArrayList<>();
-	private MedicalExam exam;
+	private MedicalExam medicalExam;
 	
 	public Pattern() {
 		super();
 	}
 	
 	public Pattern( MedicalExam exam ) {
-		super();
-		this.exam = exam;
+		this.medicalExam = exam;
+		this.convertMedicalExamToPattern();
 	}
 	
 	/**
@@ -38,7 +38,7 @@ public class Pattern {
 	 * a data arrayList used in order to classify a pattern.
 	 * 
 	 */
-	public void convertMedicalExamToPattern() {
+	private void convertMedicalExamToPattern() {
 		insertDecadeData();
 		insertMenopauseData();
 		insertTumorSizeData();
@@ -48,12 +48,10 @@ public class Pattern {
 		insertBreastData();
 		insertBreastQuadData();
 		insertIrradiant();
-		
-		return ;
 	}
 	
 	private void insertDecadeData() {
-		String decade = exam.getDecade();
+		String decade = medicalExam.getDecade();
 		switch (decade) {
 			case "10-19":
 				fillingData(0, 9);
@@ -83,12 +81,10 @@ public class Pattern {
 				fillingData(8, 9);
 				break;
 		}
-		
-		return ;
 	}
 	
 	private void insertMenopauseData() {
-		String menopause = exam.getMenopause();
+		String menopause = medicalExam.getMenopause();
 		switch (menopause) {
 			case "lt40":
 				fillingData(0, 3);
@@ -100,12 +96,10 @@ public class Pattern {
 				fillingData(2, 3);
 				break;
 		}
-		
-		return ;
 	}
 	
 	private void insertTumorSizeData() {
-		String tumorSize = exam.getTumorSize();
+		String tumorSize = medicalExam.getTumorSize();
 		switch (tumorSize) {
 			case "0-4":
 				fillingData(0, 12);
@@ -144,12 +138,10 @@ public class Pattern {
 				fillingData(11, 12);
 				break;
 		}
-		
-		return ;
 	}
 	
 	private void insertInvNodesData() {
-		String invNodes = exam.getInvNodes();
+		String invNodes = medicalExam.getInvNodes();
 		switch (invNodes) {
 			case "0-2":
 				fillingData(0, 13);
@@ -191,41 +183,38 @@ public class Pattern {
 				fillingData(12, 13);
 				break;
 		}
-		
-		return ;
 	}
 	
 	private void insertNodeCapsData() {
-		boolean nodeCaps = exam.isNodeCaps();
-		double x = (nodeCaps) ? 1.0 : 0.0;
-		data.add(x);
-		
-		return ;
+		switch (medicalExam.getNodeCaps()) {
+			case "yes":
+				fillingData(1, 2);
+				break;
+			case "no":
+				fillingData(0, 2);
+				break;
+			case "?":
+				fillingData(-1, 2);
+		}
 	}
 
 	private void insertDegMaligData() {
-		double x = exam.getDegMalig();
-		data.add(x);
-		
-		return ;
+		data.add(Double.parseDouble(medicalExam.getDegMalig()));
 	}
 
 	private void insertBreastData() {
-		String breast = exam.getBreast();
+		String breast = medicalExam.getBreast();
 		switch (breast) {
 			case "left":
 				data.add(0.0);
 				break;
 			case "right":
 				data.add(1.0);
-				break;
 		}
-		
-		return ;
 	}
 	
 	private void insertBreastQuadData() {
-		String breastQuad = exam.getBreastQuad();
+		String breastQuad = medicalExam.getBreastQuad();
 		switch (breastQuad) {
 			case "left_up":
 				fillingData(0, 5);
@@ -242,17 +231,19 @@ public class Pattern {
 			case "central":
 				fillingData(4, 5);
 				break;
+			case "?":
+				fillingData(-1, 5);
 		}
-		
-		return ;
 	}
 
 	private void insertIrradiant() {
-		boolean irradiant = exam.isIrradiant();
-		double x = (irradiant) ? 1.0 : 0.0;
-		data.add(x);
-		
-		return ;
+		switch (medicalExam.getIrradiant()) {
+			case "yes":
+				fillingData(1, 2);
+				break;
+			case "no":
+				fillingData(0, 2);
+		}
 	}
 	
 	/**
@@ -309,7 +300,7 @@ public class Pattern {
 		for ( int i = 0; i < medicalExams.size(); i++ ) {
 			Pattern p = new Pattern(medicalExams.get(i));
 			p.convertMedicalExamToPattern();
-			patterns[i] = patternToArray();
+			patterns[i] = p.patternToArray();
 		}
 		
 		return patterns;

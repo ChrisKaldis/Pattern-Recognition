@@ -37,23 +37,8 @@ public class MedicalExamController {
 	@RequestMapping(value = "/medicalExams/", produces = { "application/json;charset=utf-8" }, method = RequestMethod.GET)
 	public List<MedicalExam> getMedicalExams() {
 		log.info("Get all medical Exams.");
-		List<MedicalExam> medicalExams = medicalExamService.findAll();
+		List<MedicalExam> medicalExams = medicalExamService.findAllMedicalExams();
 		return medicalExams;
-	}
-	
-	@ApiOperation(value = "Creates a Medical Exam", notes = "This operation creates a MedicalExam entity.", response = MedicalExam.class)
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Created", response = MedicalExam.class),
-							@ApiResponse(code = 400, message = "Bad Request", response = Error.class),
-							@ApiResponse(code = 401, message = "Unauthorized", response = Error.class),
-							@ApiResponse(code = 403, message = "Forbidden", response = Error.class),
-							@ApiResponse(code = 405, message = "Method Not allowed", response = Error.class),
-							@ApiResponse(code = 409, message = "Conflict", response = Error.class),
-							@ApiResponse(code = 500, message = "Internal Server Error", response = Error.class) })
-	@RequestMapping(value = "/medicalExam", produces = { "application/json;charset=utf-8" }, consumes = { "application/json;charset=utf-8" }, method = RequestMethod.POST)
-	public ResponseEntity<MedicalExam> createMedicalExam(@ApiParam(value = "The MedicalExam to be created", required = true) @RequestBody MedicalExam exam) {
-		log.info("Add a new medical Exam.");
-		MedicalExam medicalExam = medicalExamService.addExam(exam);
-		return new ResponseEntity<MedicalExam>(medicalExam, HttpStatus.OK);
 	}
 	
 	@ApiOperation(value = "Classify a Medical Exam", notes = "This operation classify a MedicalExam entity.", response = String.class)

@@ -4,9 +4,7 @@ import java.util.List;
 
 public interface IMedicalExamService {
 
-	List<MedicalExam> findAll();
-	
-	MedicalExam addExam( MedicalExam medicalExam );
-	
+	List<MedicalExam> findAllMedicalExams();
+		
 	String classifyExam( MedicalExam medicalExam );
 }

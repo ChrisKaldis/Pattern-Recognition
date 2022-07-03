@@ -7,15 +7,17 @@ package pattern.recognition;
  */
 public class Lloyd implements Clustering {
 	// Based on the current data the size of array is (285,46).
-	private static int SIZE = 285;
-	private static int LENGTH = 46;
+	private final int SIZE;
+	private final int LENGTH;
 	private static int CENTER = 2;
-	private double[][] patterns = new double[SIZE][LENGTH];
-	private double[][] centers = new double[CENTER][LENGTH];
+	private double[][] patterns;
+	private double[][] centers;
 
 	public Lloyd( double[][] patterns ) {
-		super();
+		this.SIZE = patterns.length;
+		this.LENGTH = patterns[0].length;
 		this.patterns = patterns;
+		this.centers = new double[CENTER][LENGTH];
 		// TODO Auto-generated constructor stub
 	}
 	
@@ -30,33 +32,33 @@ public class Lloyd implements Clustering {
 	 */
 	@Override
 	public void kMeans() {
-		// TODO testing
-		double[][] distance = new double[patterns.length][patterns[0].length];
-		int[] argminArray = new int[patterns.length];
+		// TODO Να βάλω κάρτα για πάρω τηλ τη Ζωή.
+		double[][] distance = new double[SIZE][LENGTH];
+		int[] argminArray = new int[SIZE];
 		double SSE = Double.POSITIVE_INFINITY;
 		double oldSSE, tmpSSE;
 		do {
 			tmpSSE = 0.0;
 			oldSSE = SSE;
 			// initial step, finds nearest mean for every pattern
-			for ( int i = 0; i < patterns.length; i++ ) {
-				for ( int j = 0; j < centers.length; j++ )
+			for ( int i = 0; i < SIZE; i++ ) {
+				for ( int j = 0; j < CENTER; j++ )
 					distance[i][j] = distanceEucledean(patterns[i], this.centers[j]);
 				argminArray[i] = argMin(distance[i]);
 			}
 			// initialization of arrays used for recalculating means
-			double[][] y = new double[this.centers.length][this.centers[0].length];
-			double[][] z = new double[this.centers.length][this.centers[0].length];
-			for ( int i = 0; i < this.centers.length; i++ ) {
-				for ( int j = 0; j < this.centers.length; j++ ) {
+			double[][] y = new double[CENTER][LENGTH];
+			double[][] z = new double[CENTER][LENGTH];
+			for ( int i = 0; i < CENTER; i++ ) {
+				for ( int j = 0; j < LENGTH; j++ ) {
 					y[i][j] = 0.0;
 					z[i][j] = 0.0;
 				}
 			}
 			// update step, recalculate means
-			for ( int i = 0; i < patterns.length; i++ ) {
+			for ( int i = 0; i < SIZE; i++ ) {
 				int index = argminArray[i];
-				for ( int k = 0; k < this.centers[0].length; k++ ) {
+				for ( int k = 0; k < LENGTH; k++ ) {
 					y[index][k] += patterns[i][k];
 					z[index][k] += 1.0;
 				}
@@ -64,7 +66,6 @@ public class Lloyd implements Clustering {
 			}
 			for ( int j = 0; j < this.centers.length; j++ ) {
 				for ( int k = 0; k < this.centers[0].length; k++ ) {
-					z[j][k] = Math.max(z[j][k], 1.0); // avoid division with zero
 					this.centers[j][k] = y[j][k]/z[j][k];
 				}
 			}
@@ -110,7 +111,7 @@ public class Lloyd implements Clustering {
 		for ( int i = 0; i < vector.length; i++ ) {
 			if ( min > vector[i] ) {
 				index = i;
-				min = vector[index];
+				min = vector[i];
 			}
 		}
 		

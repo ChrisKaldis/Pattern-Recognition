@@ -1,4 +1,6 @@
-package pattern.recognition;
+package kaldis.clustering.impl;
+
+import kaldis.clustering.Clustering;
 
 /**
  * 
@@ -32,9 +34,9 @@ public class Lloyd implements Clustering {
 	 */
 	@Override
 	public void kMeans() {
-		// TODO Να βάλω κάρτα για πάρω τηλ τη Ζωή.
-		double[][] distance = new double[SIZE][LENGTH];
-		int[] argminArray = new int[SIZE];
+		// TODO 
+		double[][] distance = new double[SIZE][CENTER];
+		int[] argMinArray = new int[SIZE];
 		double SSE = Double.POSITIVE_INFINITY;
 		double oldSSE, tmpSSE;
 		do {
@@ -43,8 +45,8 @@ public class Lloyd implements Clustering {
 			// initial step, finds nearest mean for every pattern
 			for ( int i = 0; i < SIZE; i++ ) {
 				for ( int j = 0; j < CENTER; j++ )
-					distance[i][j] = distanceEucledean(patterns[i], this.centers[j]);
-				argminArray[i] = argMin(distance[i]);
+					distance[i][j] = distanceEucledean(this.patterns[i], this.centers[j]);
+				argMinArray[i] = argMin(distance[i]);
 			}
 			// initialization of arrays used for recalculating means
 			double[][] y = new double[CENTER][LENGTH];
@@ -57,15 +59,14 @@ public class Lloyd implements Clustering {
 			}
 			// update step, recalculate means
 			for ( int i = 0; i < SIZE; i++ ) {
-				int index = argminArray[i];
 				for ( int k = 0; k < LENGTH; k++ ) {
-					y[index][k] += patterns[i][k];
-					z[index][k] += 1.0;
+					y[argMinArray[i]][k] += this.patterns[i][k];
+					z[argMinArray[i]][k] += 1.0;
 				}
-				tmpSSE += distanceEucledean(patterns[i], this.centers[argminArray[i]]);
+				tmpSSE += distanceEucledean(this.patterns[i], this.centers[argMinArray[i]]);
 			}
-			for ( int j = 0; j < this.centers.length; j++ ) {
-				for ( int k = 0; k < this.centers[0].length; k++ ) {
+			for ( int j = 0; j < CENTER; j++ ) {
+				for ( int k = 0; k < LENGTH; k++ ) {
 					this.centers[j][k] = y[j][k]/z[j][k];
 				}
 			}
@@ -106,7 +107,7 @@ public class Lloyd implements Clustering {
 	private int argMin( double[] vector ) {
 		//TODO tests
 		int index = 0;
-		double min = vector[index];
+		double min = vector[0];
 		
 		for ( int i = 0; i < vector.length; i++ ) {
 			if ( min > vector[i] ) {
@@ -152,9 +153,9 @@ public class Lloyd implements Clustering {
 		//TODO test
 		double[][] initialCenters = new double[CENTER][LENGTH];
 		//no recurrence events start at 0 in the current file.
-		initialCenters[0] = patterns[num1];
+		initialCenters[0] = this.patterns[num1];
 		//recerrence events star at 202 in the current file.
-		initialCenters[1] = patterns[num2];
+		initialCenters[1] = this.patterns[num2];
 		
 		setCenters(initialCenters);
 		
@@ -188,8 +189,9 @@ public class Lloyd implements Clustering {
 	}
 	
 	public void setCenters( double[][] array ) {
-		this.centers = array;
-		
-		return ;
+		for ( int i = 0; i < CENTER; i++ ) {
+			for ( int j = 0; j < LENGTH; j++ )
+				this.centers[i][j] = array[i][j];
+		}
 	}
 }

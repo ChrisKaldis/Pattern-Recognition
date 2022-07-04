@@ -1,4 +1,4 @@
-package pattern.recognition;
+package kaldis.clustering;
 
 public interface Clustering {
 	

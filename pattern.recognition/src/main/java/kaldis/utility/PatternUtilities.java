@@ -1,4 +1,4 @@
-package pattern.recognition;
+package kaldis.utility;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -6,8 +6,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import rest.MedicalExam;
+import org.springframework.stereotype.Component;
 
+import kaldis.entity.MedicalExam;
+import kaldis.entity.Pattern;
+
+@Component
 public class PatternUtilities {
 	
 	public PatternUtilities() {

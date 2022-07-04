@@ -1,4 +1,4 @@
-package rest;
+package kaldis.controller;
 
 import java.util.List;
 
@@ -16,6 +16,8 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import kaldis.service.IMedicalExamService;
+import kaldis.entity.MedicalExam;
 
 @RestController
 public class MedicalExamController {

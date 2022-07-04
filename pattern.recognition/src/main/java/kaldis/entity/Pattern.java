@@ -1,9 +1,10 @@
-package pattern.recognition;
+package kaldis.entity;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import rest.MedicalExam;
+import kaldis.clustering.impl.Lloyd;
+import kaldis.utility.PatternUtilities;
 
 /**
  * 
@@ -22,6 +23,8 @@ public class Pattern {
 	
 	private List<Double> data = new ArrayList<>();
 	private MedicalExam medicalExam;
+	
+	private PatternUtilities patternUtilities = new PatternUtilities();
 	
 	public Pattern() {
 		super();
@@ -186,7 +189,8 @@ public class Pattern {
 	}
 	
 	private void insertNodeCapsData() {
-		switch (medicalExam.getNodeCaps()) {
+		String nodeCaps = medicalExam.getNodeCaps();
+		switch (nodeCaps) {
 			case "yes":
 				fillingData(1, 2);
 				break;
@@ -195,6 +199,7 @@ public class Pattern {
 				break;
 			case "?":
 				fillingData(-1, 2);
+				break;
 		}
 	}
 
@@ -210,6 +215,7 @@ public class Pattern {
 				break;
 			case "right":
 				data.add(1.0);
+				break;
 		}
 	}
 	
@@ -233,16 +239,19 @@ public class Pattern {
 				break;
 			case "?":
 				fillingData(-1, 5);
+				break;
 		}
 	}
 
 	private void insertIrradiant() {
-		switch (medicalExam.getIrradiant()) {
+		String irradiant = medicalExam.getIrradiant();
+		switch (irradiant) {
 			case "yes":
-				fillingData(1, 2);
+				data.add(1.0);
 				break;
 			case "no":
-				fillingData(0, 2);
+				data.add(0.0);
+				break;
 		}
 	}
 	
@@ -271,58 +280,16 @@ public class Pattern {
 		// Written before Lloyd Class
 		// TODO rethink at testing.
 		String response;
-		Lloyd algorithm = new Lloyd(medicalExamsToArray(medicalExams));
+		Lloyd algorithm = new Lloyd(this.patternUtilities.medicalExamsToArray(medicalExams));
 		algorithm.initialCenters(0, 202);
 		algorithm.kMeans();
-		if ( algorithm.classifyPattern(patternToArray()) ) {
+		if ( algorithm.classifyPattern(this.patternUtilities.patternToArray(this)) ) {
 			response = "recurrent";
 		} else {
 			response = "non-recurrent";
 		}
 		
 		return response;
-	}
-	
-	/**
-	 * 
-	 * This method changes the data structure in order to use
-	 * the implementations of Clustering Interface.
-	 * Class Pattern takes List with medical Exam type and Lloyd
-	 * class use a 2-D array store data used to perform calculations.
-	 * 
-	 * @param medicalExams
-	 * @return patterns a 2-D array with all data from medicalExams.
-	 * 
-	 */
-	public double[][] medicalExamsToArray( List<MedicalExam> medicalExams ) {
-		double[][] patterns = new double[medicalExams.size()][];
-		
-		for ( int i = 0; i < medicalExams.size(); i++ ) {
-			Pattern p = new Pattern(medicalExams.get(i));
-			p.convertMedicalExamToPattern();
-			patterns[i] = p.patternToArray();
-		}
-		
-		return patterns;
-	}
-	
-	/**
-	 * 
-	 * This method changes the data structure in order to use 
-	 * the implementations of Clustering Interface.
-	 * Class Pattern stores data in an arrayList and Lloyd class 
-	 * uses array. 
-	 * 
-	 * @return Array of numbers that are inside the arrayList data.
-	 * 
-	 */
-	public double[] patternToArray() {
-		double[] vector = new double[data.size()];
-		
-		for ( int i = 0; i < data.size(); i++ )
-			vector[i] = data.get(i);
-		
-		return vector;
 	}
 	
 	public List<Double> getData() {

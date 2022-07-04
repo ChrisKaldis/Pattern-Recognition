@@ -1,12 +1,13 @@
-package rest;
+package kaldis.service.impl;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import pattern.recognition.Pattern;
-import pattern.recognition.PatternUtilities;
+import kaldis.entity.MedicalExam;
+import kaldis.entity.Pattern;
+import kaldis.utility.PatternUtilities;
 
 /**
  * 
@@ -21,7 +22,7 @@ import pattern.recognition.PatternUtilities;
  * 
  */
 @Service
-public class MedicalExamService implements IMedicalExamService {
+public class MedicalExamService implements kaldis.service.IMedicalExamService {
 
 	@Autowired
 	private PatternUtilities patternUtilities;

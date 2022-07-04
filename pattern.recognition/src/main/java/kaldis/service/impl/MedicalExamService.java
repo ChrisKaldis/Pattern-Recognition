@@ -33,21 +33,26 @@ public class MedicalExamService implements kaldis.service.IMedicalExamService {
 
 	/**
 	 * 
-	 * Reads a file line by line and transpose the medical medical
-	 * exams into pattern instances.
+	 * Reads a file line by line and transpose the medical exams
+	 * into pattern instances.
 	 * 
 	 */
 	@Override
 	public List<MedicalExam> findAllMedicalExams() {
+		
 		return this.patternUtilities.extractData("src/main/resources/data/BreastCancerData.txt");
 	}
 
+	/**
+	 * 
+	 * Classify the medicalExam into recurrent or non-recurrent events.
+	 * 
+	 */
 	@Override
 	public String classifyExam( MedicalExam medicalExam ) {
 		Pattern p = new Pattern(medicalExam);
-		String response = p.classify(this.findAllMedicalExams());
 		
-		return response;
+		return p.classify(this.findAllMedicalExams());
 	}
 
 }

@@ -1,13 +1,11 @@
 package kaldis.clustering.impl;
 
-import kaldis.clustering.Clustering;
-
 /**
  * 
  * @author Chris Kaldis
  *
  */
-public class Lloyd implements Clustering {
+public class Lloyd implements kaldis.clustering.Clustering {
 	// Based on the current data the size of array is (285,46).
 	private final int SIZE;
 	private final int LENGTH;
@@ -33,8 +31,7 @@ public class Lloyd implements Clustering {
 	 * 
 	 */
 	@Override
-	public void kMeans() {
-		// TODO 
+	public void kMeans() { 
 		double[][] distance = new double[SIZE][CENTER];
 		int[] argMinArray = new int[SIZE];
 		double SSE = Double.POSITIVE_INFINITY;
@@ -72,8 +69,6 @@ public class Lloyd implements Clustering {
 			}
 			SSE = tmpSSE;
 		} while ( SSE < oldSSE ) ;
-				
-		return ;
 	}
 	
 	/**
@@ -125,15 +120,15 @@ public class Lloyd implements Clustering {
 	 * in that category. 
 	 * 
 	 * @param pattern as one dimension array 
+	 * @return event
 	 * 
 	 */
 	@Override
 	public boolean classifyPattern( double[] pattern ) {
-		//TODO test
 		boolean reccurent = false;
-		double[] distances = new double[this.centers.length];
+		double[] distances = new double[CENTER];
 		
-		for ( int i = 0; i < this.centers.length; i++ ) {
+		for ( int i = 0; i < CENTER; i++ ) {
 			distances[i] = distanceEucledean(pattern, this.centers[i]);
 		}
 		if ( argMin(distances) == 1 )
@@ -144,33 +139,30 @@ public class Lloyd implements Clustering {
 	
 	/**
 	 * 
-	 * --------------------||-----WARNING-----||--------------------<br>
-	 * Lloyd Algorithm will not work without initialization of centers.<br>
-	 * You have to call this method in every new instance of this Class.
+	 * <b>Warning</b><br>
+	 * Lloyd Algorithm will not work without initialization of centers.
 	 * 
 	 */
 	public void initialCenters( int num1, int num2 ) {
-		//TODO test
+		// TODO rewritting, is developed in naive way.
+		// Picking a good initial center is a completely different field
+		// that i didn't check in this project.
 		double[][] initialCenters = new double[CENTER][LENGTH];
 		//no recurrence events start at 0 in the current file.
 		initialCenters[0] = this.patterns[num1];
 		//recerrence events star at 202 in the current file.
 		initialCenters[1] = this.patterns[num2];
-		
 		setCenters(initialCenters);
-		
-		return ;
 	}
 	
 	@Override
 	public void calculateError() {
-		//TODO
+		//TODO Needs Testing.
 		double[][] distancesForError = new double[SIZE][CENTER];
 		for ( int i = 0; i < SIZE; i++ ) {
 			for ( int j = 0; j < CENTER; j++)
 			distancesForError[i][j] = distanceEucledean(patterns[i], centers[j]); 
 		}
-		
 		int error = 0;
 		for ( int i = 0; i < SIZE; i++ ) {
 			if ( argMin(distancesForError[i]) == 1 && i < 202 )
@@ -179,8 +171,6 @@ public class Lloyd implements Clustering {
 				error += 1;
 		}
 		System.out.println(error);
-		
-		return ;
 	}
 	
 	public double[][] getCenters() {

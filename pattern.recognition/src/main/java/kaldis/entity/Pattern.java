@@ -13,7 +13,7 @@ import kaldis.utility.PatternUtilities;
  * <p>
  * The use of this class is to transpose MedicalExam item 
  * into some data that we can use in classification and 
- * pattern recognition using KMeans Class. In order to achieve that 
+ * pattern recognition using kMeans method. In order to achieve that 
  * we have to transform the String values into numerical and 
  * after that the arrayList into typical array.
  * </p>
@@ -25,10 +25,6 @@ public class Pattern {
 	private MedicalExam medicalExam;
 	
 	private PatternUtilities patternUtilities = new PatternUtilities();
-	
-	public Pattern() {
-		super();
-	}
 	
 	public Pattern( MedicalExam exam ) {
 		this.medicalExam = exam;
@@ -82,7 +78,6 @@ public class Pattern {
 				break;
 			case "90-99":
 				fillingData(8, 9);
-				break;
 		}
 	}
 	
@@ -97,7 +92,6 @@ public class Pattern {
 				break;
 			case "premeno":
 				fillingData(2, 3);
-				break;
 		}
 	}
 	
@@ -139,7 +133,6 @@ public class Pattern {
 				break;
 			case "55-59":
 				fillingData(11, 12);
-				break;
 		}
 	}
 	
@@ -184,7 +177,6 @@ public class Pattern {
 				break;
 			case "36-39":
 				fillingData(12, 13);
-				break;
 		}
 	}
 	
@@ -199,7 +191,6 @@ public class Pattern {
 				break;
 			case "?":
 				fillingData(-1, 2);
-				break;
 		}
 	}
 
@@ -215,7 +206,6 @@ public class Pattern {
 				break;
 			case "right":
 				data.add(1.0);
-				break;
 		}
 	}
 	
@@ -239,7 +229,6 @@ public class Pattern {
 				break;
 			case "?":
 				fillingData(-1, 5);
-				break;
 		}
 	}
 
@@ -251,7 +240,6 @@ public class Pattern {
 				break;
 			case "no":
 				data.add(0.0);
-				break;
 		}
 	}
 	
@@ -272,13 +260,18 @@ public class Pattern {
 				data.add(1.0);
 			}
 		}
-		
-		return ;
 	}
 
+	/**
+	 * 
+	 * Uses the list with all medical exams and a kMeans implementation
+	 * in order to classify the pattern.
+	 * 
+	 * @param medicalExams
+	 * @return event
+	 * 
+	 */
 	public String classify( List<MedicalExam> medicalExams ) {
-		// Written before Lloyd Class
-		// TODO rethink at testing.
 		String response;
 		Lloyd algorithm = new Lloyd(this.patternUtilities.medicalExamsToArray(medicalExams));
 		algorithm.initialCenters(0, 202);

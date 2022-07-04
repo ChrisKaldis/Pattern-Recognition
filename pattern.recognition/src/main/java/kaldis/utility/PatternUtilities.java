@@ -47,6 +47,7 @@ public class PatternUtilities {
    * Class Pattern stores data in an arrayList and Lloyd class
    * uses array.
    *
+   * @param pattern
    * @return Array of numbers that are inside the arrayList data.
    *
    */
@@ -58,6 +59,14 @@ public class PatternUtilities {
       return vector;
   }
   
+  /**
+   * 
+   * Reads from a file medical exams and stores it in a List
+   * with MedicalExam instances.
+   * 
+   * @param path
+   * @return MedicalExam List 
+   */
   public List<MedicalExam> extractData(String path) {
       List<MedicalExam> medicalExams = new ArrayList<>();
       // code copied from url below, tested for working not effectiveness.

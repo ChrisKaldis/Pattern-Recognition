@@ -23,5 +23,12 @@ class MedicalExamServiceTest {
 		String answer = this.medicalExamService.classifyExam(medicalExamTest);
 		assertEquals( answer, "non-recurrent", "wrong in classification!" );
 	}
+	
+	@Test
+	void testClassifyExam2() {
+		MedicalExam medicalExamTest = new MedicalExam("true","40-49","premeno","40-44","0-2","no","1","left","left_low","no");
+		String answer = this.medicalExamService.classifyExam(medicalExamTest);
+		assertEquals( answer, "recurrent", "wrong in classification!" );
+	}
 
 }

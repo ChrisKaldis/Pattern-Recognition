@@ -6,6 +6,8 @@ The medical exams from a file are transposed into patterns in order to use the a
 
 ---
 
+Code developed using eclipse IDE.
+
 ## API
 There are two basic methods implemented into this project so far.
 

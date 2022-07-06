@@ -16,9 +16,13 @@ There are two basic methods implemented into this project so far.
 The commands to run the program into a complete new system with Ubuntu OS.
 
 After you install the project, istall docker & run project.
+
 `code` $ sudo apt-get install docker.io -y
+
 `code` $ sudo mv /path/of/repository/before /opt/pattern.recognition
+
 `code` $ sudo docker build patternrecproject /opt/pattern.recognition
+
 `code` $ docker run -d -p 9090:8888 patternrecproject
 
 After the code above you can test the project into the localhost.
